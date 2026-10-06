@@ -87,8 +87,8 @@ import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import co.touchlab.kermit.Logger
 import com.eygraber.uri.Uri
 import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
@@ -142,8 +142,8 @@ import kitshn.shared.generated.resources.onboarding_sign_in_mtls_required_dialog
 import kitshn.shared.generated.resources.onboarding_sign_in_mtls_required_dialog_title
 import kitshn.shared.generated.resources.onboarding_sign_in_title
 import kitshn.shared.generated.resources.onboarding_sign_in_using_web_browser
+import kitshn.shared.generated.resources.onboarding_sign_in_using_web_browser_passkey_hint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
@@ -171,7 +171,6 @@ fun RouteOnboardingSignIn(
     var instanceUrlV1Error by rememberSaveable { mutableStateOf(false) }
     var instanceUrlRequiresClientCert by rememberSaveable { mutableStateOf(false) }
     var instanceUrlRetryToken by rememberSaveable { mutableStateOf(0) }
-    val instanceUrlFocusRequester = remember { FocusRequester() }
 
     var editingHeader by remember { mutableStateOf<TandoorCredentialsCustomHeader?>(null) }
     var isEditingHeader by remember { mutableStateOf(false) }
@@ -680,6 +679,7 @@ fun RouteOnboardingSignIn(
 
                     OutlinedButton(
                         onClick = {
+                            focusManager.clearFocus(force = true)
                             p.vm.navHostController?.navigate(
                                 "onboarding/signIn/browser/${
                                     kotlin.io.encoding.Base64.encode(
@@ -701,6 +701,18 @@ fun RouteOnboardingSignIn(
 
                         Text(text = stringResource(Res.string.onboarding_sign_in_using_web_browser))
                     }
+
+                    Spacer(Modifier.height(8.dp))
+
+                    Text(
+                        text = stringResource(
+                            Res.string.onboarding_sign_in_using_web_browser_passkey_hint
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
                 }
             }
         }
@@ -825,16 +837,6 @@ fun RouteOnboardingSignIn(
                 }
             }
         )
-    }
-
-    LaunchedEffect(Unit) {
-        this.coroutineContext.job.invokeOnCompletion {
-            try {
-                instanceUrlFocusRequester.requestFocus()
-            } catch (e: Exception) {
-                Logger.e("OnboardingSignIn.kt", e)
-            }
-        }
     }
 }
 
