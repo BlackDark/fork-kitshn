@@ -385,9 +385,7 @@ fun RouteOnboardingSignIn(
                         .padding(16.dp)
                 ) {
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(instanceUrlFocusRequester),
+                        modifier = Modifier.fillMaxWidth(),
 
                         label = { Text(stringResource(Res.string.common_instance_url)) },
                         placeholder = { Text("https://app.tandoor.dev") },
