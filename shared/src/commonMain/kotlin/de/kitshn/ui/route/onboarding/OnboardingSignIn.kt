@@ -384,7 +384,6 @@ fun RouteOnboardingSignIn(
                 Column(
                     Modifier
                         .padding(16.dp)
-                        .fillMaxSize()
                 ) {
                     TextField(
                         modifier = Modifier
@@ -559,7 +558,7 @@ fun RouteOnboardingSignIn(
 
                     TextField(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxWidth()
                             .semantics {
                                 contentType = androidx.compose.ui.autofill.ContentType.Username
                             },
@@ -595,7 +594,7 @@ fun RouteOnboardingSignIn(
 
                     TextField(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxWidth()
                             .semantics {
                                 contentType = androidx.compose.ui.autofill.ContentType.Password
                             },
@@ -636,7 +635,7 @@ fun RouteOnboardingSignIn(
 
                     TextField(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxWidth()
                             .semantics {
                                 contentType = androidx.compose.ui.autofill.ContentType.Password
                             },
